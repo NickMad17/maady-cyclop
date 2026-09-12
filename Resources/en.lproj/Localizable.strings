@@ -1,0 +1,157 @@
+/* Cyclop — English. The keys are the English text itself, so this table is a
+   formality: it exists so the bundle declares English as a localisation, and so
+   a phrase can be reworded here without touching the code. */
+
+/* Tabs */
+"Music" = "Music";
+"Shelf" = "Shelf";
+"Clipboard" = "Clipboard";
+"Snippets" = "Snippets";
+"Calendar" = "Calendar";
+"Timer" = "Timer";
+"Translate" = "Translate";
+"Favorites" = "Favorites";
+"Picker" = "Picker";
+"Settings" = "Settings";
+
+/* Menu bar */
+"Open Panel" = "Open Panel";
+"Quit" = "Quit";
+
+/* Settings tab */
+"Tabs" = "Tabs";
+"The first six that are on sit on the left. The rest go to the right." = "The first six that are on sit on the left. The rest go to the right.";
+"Always visible" = "Always visible";
+
+"General" = "General";
+"Launch at Login" = "Launch at Login";
+"Open" = "Open";
+"Close" = "Close";
+"On hover" = "On hover";
+"On click" = "On click";
+"On leave" = "On leave";
+"Displays" = "Displays";
+"Show on All Displays" = "Show on All Displays";
+
+"Screenshots" = "Screenshots";
+"Save Clipboard Screenshots" = "Save Clipboard Screenshots";
+"Show Screenshots Folder" = "Show Screenshots Folder";
+"Clear Screenshots Folder" = "Clear Screenshots Folder";
+"Clear Screenshots Folder (%@)" = "Clear Screenshots Folder (%@)";
+"Show Snippets File" = "Show Snippets File";
+"Show Favorites File" = "Show Favorites File";
+
+/* Shelf */
+"Selected: %d" = "Selected: %d";
+"Deselect" = "Deselect";
+"Clear" = "Clear";
+"Copy" = "Copy";
+"Open" = "Open";
+"Show in Finder" = "Show in Finder";
+"Remove from Shelf" = "Remove from Shelf";
+
+/* Media */
+"Nothing is playing" = "Nothing is playing";
+
+/* Snippets */
+"Add a snippet" = "Add a snippet";
+"Name" = "Name";
+"Text" = "Text";
+"Delete" = "Delete";
+"Nothing here yet — add with +" = "Nothing here yet — add with +";
+"snippets.json is broken — click to open; nothing is overwritten" = "snippets.json is broken — click to open; nothing is overwritten";
+
+/* Notes */
+"Notes" = "Notes";
+"New Note" = "New Note";
+"Empty note" = "Empty note";
+"Jot something down…" = "Jot something down…";
+
+/* Translate */
+"Translation Languages…" = "Translation Languages…";
+"Retry" = "Retry";
+"The %@ → %@ language pack is not installed." = "The %@ → %@ language pack is not installed.";
+"macOS does not translate this pair of languages." = "macOS does not translate this pair of languages.";
+
+/* Calendar */
+"Join" = "Join";
+"Join · %@" = "Join · %@";
+"No other meetings this week" = "No other meetings this week";
+"See your next meetings" = "See your next meetings";
+"Cyclop needs access to Calendar. It is the only permission\nthe app asks for, and only for this tab." = "Cyclop needs access to Calendar. It is the only permission\nthe app asks for, and only for this tab.";
+"Allow" = "Allow";
+"Calendar access is off" = "Calendar access is off";
+"Settings → Privacy → Calendars" = "Settings → Privacy → Calendars";
+"No more meetings" = "No more meetings";
+"Nothing on the calendar for the next day" = "Nothing on the calendar for the next day";
+"Untitled" = "Untitled";
+"Calendars" = "Calendars";
+"Done" = "Done";
+
+/* Countdown, lower-case: the capital is added where the label is built.
+   Abbreviated on purpose: a panel header has room for "in 12 min"
+   and not for a spelled-out plural, and abbreviations decline in no language. */
+"now" = "now";
+"any moment" = "any moment";
+"tomorrow" = "tomorrow";
+"in %d min" = "in %d min";
+"in %d h" = "in %d h";
+"in %d h %d min" = "in %d h %d min";
+"in %d d" = "in %d d";
+
+/* Timer */
+"Start" = "Start";
+"Pause" = "Pause";
+"Reset" = "Reset";
+"Paused" = "Paused";
+"%d min" = "%d min";
+"Timer finished" = "Timer finished";
+"Then a red bar fills under the notch" = "Then a red bar fills under the notch";
+"The bar fills under the notch" = "The bar fills under the notch";
+"h" = "h";
+"min" = "min";
+
+/* Color picker */
+"Pick" = "Pick";
+"Copied" = "Copied";
+"On the pasteboard" = "On the pasteboard";
+"Click the dropper, then a pixel." = "Click the dropper, then a pixel.";
+
+/* Saved screenshots. The key is the date format itself, so a language can put
+   the parts in its own order. */
+"Screenshot" = "Screenshot";
+"yyyy-MM-dd 'at' HH.mm.ss" = "yyyy-MM-dd 'at' HH.mm.ss";
+
+/* Privacy mode: the panel covers what it holds with a field of dots. */
+"Hide Contents" = "Hide Contents";
+"Hidden" = "Hidden";
+"Show" = "Show";
+"Hide" = "Hide";
+"All" = "All";
+
+/* Favorites */
+"Add" = "Add";
+"Add folders" = "Add folders";
+"Add a vertical divider" = "Add a vertical divider";
+"Add a horizontal divider" = "Add a horizontal divider";
+"Choose folders to keep in the notch" = "Choose folders to keep in the notch";
+"Drop folders here, or add with +" = "Drop folders here, or add with +";
+"Remove" = "Remove";
+"Edit" = "Edit";
+"Rename" = "Rename";
+"Color" = "Color";
+"Red" = "Red";
+"Orange" = "Orange";
+"Yellow" = "Yellow";
+"Green" = "Green";
+"Blue" = "Blue";
+"Purple" = "Purple";
+"Pink" = "Pink";
+"Gray" = "Gray";
+"Folder is missing" = "Folder is missing";
+"favorites.json is broken — click to open; nothing is overwritten" = "favorites.json is broken — click to open; nothing is overwritten";
+
+"Teleprompter" = "Teleprompter";
+"Paste the script here" = "Paste the script here";
+"Ready" = "Ready";
+"Done" = "Done";

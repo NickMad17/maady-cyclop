@@ -1,0 +1,156 @@
+/* Cyclop — русский. Ключи — английский текст, поэтому строка без перевода
+   просто останется английской, а не превратится в идентификатор. */
+
+/* Вкладки */
+"Music" = "Музыка";
+"Shelf" = "Полка";
+"Clipboard" = "Буфер";
+"Snippets" = "Заготовки";
+"Calendar" = "Календарь";
+"Timer" = "Таймер";
+"Translate" = "Перевод";
+"Favorites" = "Избранное";
+"Picker" = "Пипетка";
+"Settings" = "Настройки";
+
+/* Меню-бар */
+"Open Panel" = "Открыть панель";
+"Quit" = "Выйти";
+
+/* Вкладка настроек */
+"Tabs" = "Вкладки";
+"The first six that are on sit on the left. The rest go to the right." = "Первые шесть включённых — слева, остальные справа.";
+"Always visible" = "Всегда на месте";
+
+"General" = "Общее";
+"Launch at Login" = "Запускать при входе";
+"Open" = "Открывать";
+"Close" = "Закрывать";
+"On hover" = "Наведением";
+"On click" = "Кликом";
+"On leave" = "Отведением";
+"Displays" = "Дисплеи";
+"Show on All Displays" = "Показывать на всех дисплеях";
+
+"Screenshots" = "Скриншоты";
+"Save Clipboard Screenshots" = "Сохранять скриншоты из буфера";
+"Show Screenshots Folder" = "Показать папку скриншотов";
+"Clear Screenshots Folder" = "Очистить папку снимков";
+"Clear Screenshots Folder (%@)" = "Очистить папку снимков (%@)";
+"Show Snippets File" = "Показать файл заготовок";
+"Show Favorites File" = "Показать файл избранного";
+
+/* Полка */
+"Selected: %d" = "Выбрано: %d";
+"Deselect" = "Снять выбор";
+"Clear" = "Очистить";
+"Copy" = "Копировать";
+"Open" = "Открыть";
+"Show in Finder" = "Показать в Finder";
+"Remove from Shelf" = "Убрать с полки";
+
+/* Музыка */
+"Nothing is playing" = "Ничего не играет";
+
+/* Заготовки */
+"Add a snippet" = "Добавить заготовку";
+"Name" = "Название";
+"Text" = "Текст";
+"Delete" = "Удалить";
+"Nothing here yet — add with +" = "Пока пусто — добавь через +";
+"snippets.json is broken — click to open; nothing is overwritten" = "snippets.json не читается — нажми, чтобы открыть; поверх ничего не пишется";
+
+/* Заметки */
+"Notes" = "Заметки";
+"New Note" = "Новая заметка";
+"Empty note" = "Пустая заметка";
+"Jot something down…" = "Набросай что-нибудь…";
+
+/* Перевод */
+"Translation Languages…" = "Языки перевода…";
+"Retry" = "Повторить";
+"The %@ → %@ language pack is not installed." = "Не скачан языковой пакет %@ → %@.";
+"macOS does not translate this pair of languages." = "macOS не переводит эту пару языков.";
+
+/* Календарь */
+"Join" = "Подключиться";
+"Join · %@" = "Подключиться · %@";
+"No other meetings this week" = "Других встреч на неделе нет";
+"See your next meetings" = "Показать ближайшие встречи";
+"Cyclop needs access to Calendar. It is the only permission\nthe app asks for, and only for this tab." = "Нужен доступ к Календарю. Это единственное разрешение,\nкоторое просит Cyclop — и только для этой вкладки.";
+"Allow" = "Разрешить";
+"Calendar access is off" = "Доступ к Календарю закрыт";
+"Settings → Privacy → Calendars" = "Настройки → Конфиденциальность → Календари";
+"No more meetings" = "Встреч больше нет";
+"Nothing on the calendar for the next day" = "В ближайшие сутки календарь пуст";
+"Untitled" = "Без названия";
+"Calendars" = "Календари";
+"Done" = "Готово";
+
+/* Отсчёт со строчной: прописную ставит то место, где строится подпись.
+   Сокращения намеренные: в шапку панели помещается «через 12 мин», но
+   не полное слово с падежом, а сокращение не склоняется ни в каком языке. */
+"now" = "идёт сейчас";
+"any moment" = "вот-вот";
+"tomorrow" = "завтра";
+"in %d min" = "через %d мин";
+"in %d h" = "через %d ч";
+"in %d h %d min" = "через %d ч %d мин";
+"in %d d" = "через %d дн";
+
+/* Таймер */
+"Start" = "Старт";
+"Pause" = "Пауза";
+"Reset" = "Сброс";
+"Paused" = "Пауза";
+"%d min" = "%d мин";
+"Timer finished" = "Время вышло";
+"Then a red bar fills under the notch" = "Потом под челкой пойдёт красная полоса";
+"The bar fills under the notch" = "Полоса идёт под челкой";
+"h" = "ч";
+"min" = "мин";
+
+/* Пипетка */
+"Pick" = "Снять";
+"Copied" = "Скопировано";
+"On the pasteboard" = "В буфере";
+"Click the dropper, then a pixel." = "Нажми пипетку, потом пиксель.";
+
+/* Сохранённые снимки. Ключ — сам формат даты, чтобы язык мог переставить части
+   в своём порядке. */
+"Screenshot" = "Снимок";
+"yyyy-MM-dd 'at' HH.mm.ss" = "yyyy-MM-dd 'в' HH.mm.ss";
+
+/* Режим приватности: панель закрывает содержимое полем из точек. */
+"Hide Contents" = "Скрывать содержимое";
+"Hidden" = "Скрыто";
+"Show" = "Показать";
+"Hide" = "Скрыть";
+"All" = "Всё";
+
+/* Избранное */
+"Add" = "Добавить";
+"Add folders" = "Добавить папки";
+"Add a vertical divider" = "Добавить вертикальную черту";
+"Add a horizontal divider" = "Добавить горизонтальную черту";
+"Choose folders to keep in the notch" = "Выбери папки, которые будут в челке";
+"Drop folders here, or add with +" = "Перетащи папки сюда или добавь через +";
+"Remove" = "Убрать";
+"Edit" = "Изменить";
+"Rename" = "Переименовать";
+"Color" = "Цвет";
+"Red" = "Красный";
+"Orange" = "Оранжевый";
+"Yellow" = "Жёлтый";
+"Green" = "Зелёный";
+"Blue" = "Синий";
+"Purple" = "Фиолетовый";
+"Pink" = "Розовый";
+"Gray" = "Серый";
+"Folder is missing" = "Папка не найдена";
+"favorites.json is broken — click to open; nothing is overwritten" = "favorites.json не читается — нажми, чтобы открыть; поверх ничего не пишется";
+
+"Teleprompter" = "Телесуфлёр";
+"Paste the script here" = "Вставьте сюда сценарий";
+"Ready" = "Готово";
+"Done" = "Готово";
