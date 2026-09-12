@@ -218,12 +218,14 @@ final class NotchViewModel: ObservableObject {
             self.receivedScreenshot(at: url)
         }
 
-        // Media, clipboard and calendar only run while their tab is on the
-        // rail. A hidden tab that still polled would be the background work
-        // the project promises not to do.
+        // Media and calendar only run while their tab is on the rail.
+        // Clipboard polling also stays on when screenshot-to-shelf is enabled:
+        // that is a shelf feature, and hiding the clipboard tab must not
+        // silently drop shots on a fresh Mac.
         layout.$items
             .sink { [weak self] _ in self?.syncBackgroundWork() }
             .store(in: &cancellables)
+        syncBackgroundWork()
     }
 
     func stop() {
@@ -241,7 +243,8 @@ final class NotchViewModel: ObservableObject {
     /// list is empty.
     private func syncBackgroundWork() {
         setRunning(.media, layout.isVisible(.media), start: media.start, stop: media.stop)
-        setRunning(.clipboard, layout.isVisible(.clipboard), start: clipboard.start, stop: clipboard.stop)
+        let needClipboard = layout.isVisible(.clipboard) || Self.saveClipboardImagesEnabled
+        setRunning(.clipboard, needClipboard, start: clipboard.start, stop: clipboard.stop)
         setRunning(.calendar, layout.isVisible(.calendar), start: calendar.start, stop: calendar.stop)
         if !layout.isVisible(tab) {
             tab = layout.visible.first ?? .settings

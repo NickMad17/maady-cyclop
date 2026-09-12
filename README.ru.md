@@ -6,13 +6,13 @@
 невидимо, по наведению мыши разворачивается вниз в панель с плеером, полкой для
 файлов, историей буфера обмена и ближайшими встречами.
 
-[![build](https://github.com/akalikbergenov/cyclop/actions/workflows/build.yml/badge.svg)](https://github.com/akalikbergenov/cyclop/actions/workflows/build.yml)
-[![Buy Me a Coffee](https://img.shields.io/badge/buy%20me%20a%20coffee-%E2%98%95-FFDD00?style=flat-square&labelColor=000000)](https://buymeacoffee.com/akalikbergenov)
+[![build](https://github.com/NickMad17/maady-cyclop/actions/workflows/build.yml/badge.svg)](https://github.com/NickMad17/maady-cyclop/actions/workflows/build.yml)
 
 ![Панель Cyclop](docs/panel.png)
 
-**[Скачать последнюю версию](https://github.com/akalikbergenov/cyclop/releases/latest)** —
-macOS 15 или новее. Первый запуск требует одного разрешения вручную,
+**[Скачать Cyclop](https://github.com/NickMad17/maady-cyclop/releases/latest)** —
+`.dmg` для macOS 15 или новее. Открой образ и перетащи приложение в «Программы».
+Первый запуск требует одного разрешения вручную,
 [как именно](#установка).
 
 ```
@@ -27,7 +27,7 @@ macOS 15 или новее. Первый запуск требует одног�
 | Вкладка | Что делает |
 |---|---|
 | **Музыка** | Обложка, трек, исполнитель, скраббер с перемоткой, prev / play-pause / next. Источник — **что угодно**: плеер, вкладка браузера, любое приложение, которое видит сама macOS |
-| **Полка** | Перетащи файлы в челку — они лежат там, пока не понадобятся; тянешь карточку наружу и файл уходит куда нужно. Клик выбирает карточку, ⌘-клик — несколько, и тогда перетаскивается вся группа. Снимок экрана, сделанный в буфер обмена, сохраняется файлом и попадает сюда же — в том числе снятый на айфоне, если скопировать его там |
+| **Полка** | Перетащи файлы в челку — они лежат там, пока не понадобятся; тянешь карточку наружу и файл уходит куда нужно. Клик выбирает карточку, ⌘-клик — несколько, затем тащится вся группа. Карточку можно скопировать или убрать. Снимок — ⌘⇧3 / ⌘⇧4 или скопированный в буфер, в том числе с айфона — сам сохраняется в `~/Pictures/Cyclop` и появляется здесь. На новом Mac ничего настраивать не нужно. |
 | **Буфер** | История последних 40 копирований, клик возвращает запись в буфер обмена |
 | **Заготовки** | Ручной список того, что надоело набирать: почта, телефон, адрес. Добавляются кнопкой прямо в панели, удаляются крестиком на карточке; клик кладёт строку в буфер обмена. Тот же список лежит файлом в `~/Library/Application Support/Cyclop/snippets.json` и правится в редакторе, если так удобнее |
 | **Календарь** | Ближайшая встреча на неделю вперёд: сколько до неё осталось, кнопка подключения к Zoom, Meet, Teams и другим. Остальные встречи — списком |
@@ -52,8 +52,8 @@ macOS 15 или новее. Первый запуск требует одног�
 ## Сборка
 
 ```bash
-git clone https://github.com/akalikbergenov/cyclop.git
-cd cyclop
+git clone https://github.com/NickMad17/maady-cyclop.git
+cd maady-cyclop
 ./Scripts/bundle.sh          # swift build + сборка .app + ad-hoc подпись
 open build/Cyclop.app
 ```
@@ -120,8 +120,8 @@ xattr -dr com.apple.quarantine /Applications/Cyclop.app
 работать, если в дереве есть несохраненное, если коммиты не запушены или если
 такой тег уже существует.
 
-Готовые образы лежат на [странице релизов](https://github.com/akalikbergenov/cyclop/releases) —
-это и есть ссылка, которую можно давать людям вместо файла.
+Готовые образы лежат на [странице релизов](https://github.com/NickMad17/maady-cyclop/releases/latest) —
+это ссылка, которую можно давать людям: `.dmg` с приложением и ярлыком «Программы».
 
 ## Разрешения
 
@@ -481,23 +481,6 @@ Sources/Cyclop
 Sources/CyclopMediaHelper
 └── helper.m                   dylib для /usr/bin/perl: MediaRemote -> JSON
 ```
-
-## Спасибо
-
-Приложение бесплатное, без подписок, рекламы и сбора данных — и таким
-останется. Если оно вам пригодилось и хочется поддержать:
-
-**[☕ Buy Me a Coffee](https://buymeacoffee.com/akalikbergenov)**
-
-Отдельное спасибо тем, кто пришёл в репозиторий в первые же дни и сделал
-приложение лучше: [@DontTrustMexD](https://github.com/DontTrustMexD),
-[@a58becde](https://github.com/a58becde),
-[@ispy4you](https://github.com/ispy4you),
-[@iFuzYs](https://github.com/iFuzYs),
-[@zhd-dm](https://github.com/zhd-dm),
-[@komekovars](https://github.com/komekovars),
-[@superkai-sdk1](https://github.com/superkai-sdk1),
-[@Ariet2003](https://github.com/Ariet2003).
 
 ## Лицензия
 

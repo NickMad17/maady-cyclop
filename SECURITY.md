@@ -2,7 +2,7 @@
 
 ## Как сообщить об уязвимости
 
-Через [Security Advisories](https://github.com/akalikbergenov/cyclop/security/advisories/new)
+Через [Security Advisories](https://github.com/NickMad17/maady-cyclop/security/advisories/new)
 на GitHub — это приватный канал, issue заводить не нужно. Ответ придёт, когда придёт:
 проект личный, дежурства по нему нет.
 

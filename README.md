@@ -6,13 +6,13 @@ The MacBook notch as a working tool. A native SwiftUI/AppKit app: invisible at
 rest, and on hover it unfolds downwards into a panel with a player, a shelf for
 files, clipboard history and your next meetings.
 
-[![build](https://github.com/akalikbergenov/cyclop/actions/workflows/build.yml/badge.svg)](https://github.com/akalikbergenov/cyclop/actions/workflows/build.yml)
-[![Buy Me a Coffee](https://img.shields.io/badge/buy%20me%20a%20coffee-%E2%98%95-FFDD00?style=flat-square&labelColor=000000)](https://buymeacoffee.com/akalikbergenov)
+[![build](https://github.com/NickMad17/maady-cyclop/actions/workflows/build.yml/badge.svg)](https://github.com/NickMad17/maady-cyclop/actions/workflows/build.yml)
 
 ![The Cyclop panel](docs/panel.png)
 
-**[Download the latest version](https://github.com/akalikbergenov/cyclop/releases/latest)** —
-macOS 15 or newer. The first launch needs one permission granted by hand,
+**[Download Cyclop](https://github.com/NickMad17/maady-cyclop/releases/latest)** —
+`.dmg` for macOS 15 or newer. Open the image and drag the app into Applications.
+The first launch needs one permission granted by hand,
 [here is how](#installation).
 
 ```
@@ -28,7 +28,7 @@ that works is below.
 | Tab | What it does |
 |---|---|
 | **Music** | Artwork, track, artist, a scrubber that seeks, prev / play-pause / next. The source is **anything**: a player, a browser tab, any app macOS itself can see |
-| **Shelf** | Drag files into the notch and they stay there until needed; drag a card out and the file goes wherever it is dropped. A click selects a card, ⌘-click selects several, and then the whole group is dragged. A screenshot taken to the clipboard is saved as a file and lands here too — including one taken on an iPhone, if you copy it there |
+| **Shelf** | Drag files into the notch and they stay there until needed; drag a card out and the file goes wherever it is dropped. A click selects a card, ⌘-click selects several, then the whole group is dragged. Cards can be copied or removed. A screenshot — ⌘⇧3 / ⌘⇧4, or one copied to the clipboard, including from an iPhone — is saved to `~/Pictures/Cyclop` and lands here by itself. No extra setup on a new Mac. |
 | **Clipboard** | The last 40 copies; a click puts an entry back on the clipboard |
 | **Snippets** | A hand-kept list of what you are tired of retyping: an address, a phone number, an email. Added with a button in the panel, removed with the cross on a card; a click puts the text on the clipboard. The same list lives in `~/Library/Application Support/Cyclop/snippets.json` and can be edited there instead |
 | **Calendar** | The next meeting a week ahead: how long until it starts and a button that joins the call — Zoom, Meet, Teams and others. The rest of the meetings as a list |
@@ -53,8 +53,8 @@ area at the top centre of the screen as one.
 ## Building
 
 ```bash
-git clone https://github.com/akalikbergenov/cyclop.git
-cd cyclop
+git clone https://github.com/NickMad17/maady-cyclop.git
+cd maady-cyclop
 ./Scripts/bundle.sh          # swift build + assemble the .app + ad-hoc sign
 open build/Cyclop.app
 ```
@@ -120,8 +120,8 @@ into the app's `Info.plist`, into the image name and into the tag, so they canno
 drift apart. The script also refuses to run on a dirty tree, on unpushed commits,
 or when the tag already exists.
 
-Built images live on the [releases page](https://github.com/akalikbergenov/cyclop/releases) —
-that is the link to hand to people instead of a file.
+Ready-made images live on the [releases page](https://github.com/NickMad17/maady-cyclop/releases/latest) —
+that is the link to hand to people: a `.dmg` with the app and an Applications shortcut.
 
 ## Permissions
 
@@ -494,23 +494,6 @@ Sources/Cyclop
 Sources/CyclopMediaHelper
 └── helper.m                   dylib for /usr/bin/perl: MediaRemote -> JSON
 ```
-
-## Thanks
-
-The app is free — no subscriptions, no ads, no data collection — and will stay
-that way. If it turned out useful and you feel like supporting it:
-
-**[☕ Buy Me a Coffee](https://buymeacoffee.com/akalikbergenov)**
-
-Special thanks to everyone who showed up in the first days and made the app
-better: [@DontTrustMexD](https://github.com/DontTrustMexD),
-[@a58becde](https://github.com/a58becde),
-[@ispy4you](https://github.com/ispy4you),
-[@iFuzYs](https://github.com/iFuzYs),
-[@zhd-dm](https://github.com/zhd-dm),
-[@komekovars](https://github.com/komekovars),
-[@superkai-sdk1](https://github.com/superkai-sdk1),
-[@Ariet2003](https://github.com/Ariet2003).
 
 ## Licence
 

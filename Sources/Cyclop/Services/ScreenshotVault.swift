@@ -30,6 +30,19 @@ enum ScreenshotVault {
         domain?.set(path, forKey: "location")
         domain?.set("file", forKey: "target")
         domain?.synchronize()
+        // `defaults write` is what actually lands in the domain macOS reads
+        // for ⌘⇧3 / ⌘⇧4. Suite UserDefaults alone can stay invisible on a
+        // machine that has never run Cyclop before.
+        let defaults = Process()
+        defaults.executableURL = URL(fileURLWithPath: "/usr/bin/defaults")
+        defaults.arguments = ["write", "com.apple.screencapture", "location", path]
+        try? defaults.run()
+        defaults.waitUntilExit()
+        let target = Process()
+        target.executableURL = URL(fileURLWithPath: "/usr/bin/defaults")
+        target.arguments = ["write", "com.apple.screencapture", "target", "file"]
+        try? target.run()
+        target.waitUntilExit()
     }
 
     private static let stamp: DateFormatter = {
