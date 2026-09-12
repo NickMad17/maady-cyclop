@@ -1,6 +1,6 @@
 import AppKit
 
-/// Where screenshots are kept: `~/Pictures/Cyclop`.
+/// Where screenshots are kept: `~/Pictures/MaadyCyclop`.
 ///
 /// A screenshot taken to the clipboard exists only in memory: paste it once and
 /// it is gone. The vault writes it to disk so the shelf can hold on to it.
@@ -9,12 +9,17 @@ import AppKit
 /// Taking a card off the shelf, or pressing Clear, puts the file in the
 /// Trash. Nothing is deleted behind the user's back.
 enum ScreenshotVault {
-    /// `~/Pictures/Cyclop` — findable in Finder next to Photos, and unlike
+    /// `~/Pictures/MaadyCyclop` — findable in Finder next to Photos, and unlike
     /// Desktop or Documents it is not behind a TCC prompt.
     static let folder: URL = {
-        let url = FileManager.default.homeDirectoryForCurrentUser
+        let pictures = FileManager.default.homeDirectoryForCurrentUser
             .appendingPathComponent("Pictures", isDirectory: true)
-            .appendingPathComponent("Cyclop", isDirectory: true)
+        let url = pictures.appendingPathComponent("MaadyCyclop", isDirectory: true)
+        let previous = pictures.appendingPathComponent("Cyclop", isDirectory: true)
+        if !FileManager.default.fileExists(atPath: url.path),
+           FileManager.default.fileExists(atPath: previous.path) {
+            try? FileManager.default.moveItem(at: previous, to: url)
+        }
         try? FileManager.default.createDirectory(at: url, withIntermediateDirectories: true)
         return url
     }()

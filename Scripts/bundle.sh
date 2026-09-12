@@ -1,11 +1,11 @@
 #!/bin/bash
-# Builds Cyclop.app without Xcode: SwiftPM produces the binary, this script
+# Builds MaadyCyclop.app without Xcode: SwiftPM produces the binary, this script
 # assembles the bundle around it and ad-hoc signs it.
 set -euo pipefail
 
 ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 CONFIG="${1:-release}"
-APP="$ROOT/build/Cyclop.app"
+APP="$ROOT/build/MaadyCyclop.app"
 VERSION="$(sed -n 's/^VERSION=//p' "$ROOT/Scripts/version" 2>/dev/null || echo 0.1.0)"
 
 echo "==> swift build -c $CONFIG"
@@ -22,11 +22,11 @@ cat > "$APP/Contents/Info.plist" <<PLIST
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-    <key>CFBundleName</key><string>Cyclop</string>
+    <key>CFBundleName</key><string>MaadyCyclop</string>
     <key>CFBundleDevelopmentRegion</key><string>en</string>
     <key>CFBundleLocalizations</key>
     <array><string>en</string><string>ru</string></array>
-    <key>CFBundleDisplayName</key><string>Cyclop</string>
+    <key>CFBundleDisplayName</key><string>MaadyCyclop</string>
     <key>CFBundleIdentifier</key><string>com.cyclop.app</string>
     <key>CFBundleExecutable</key><string>Cyclop</string>
     <key>CFBundleIconFile</key><string>AppIcon</string>
@@ -39,11 +39,11 @@ cat > "$APP/Contents/Info.plist" <<PLIST
     <key>NSSupportsAutomaticTermination</key><false/>
     <key>NSSupportsSuddenTermination</key><false/>
     <key>NSAppleEventsUsageDescription</key>
-    <string>Cyclop читает название текущего трека и управляет воспроизведением в Apple Music и Spotify.</string>
+    <string>MaadyCyclop читает название текущего трека и управляет воспроизведением в Apple Music и Spotify.</string>
     <key>NSCalendarsFullAccessUsageDescription</key>
-    <string>Cyclop показывает ближайшие встречи и кнопку подключения к ним.</string>
+    <string>MaadyCyclop показывает ближайшие встречи и кнопку подключения к ним.</string>
     <key>NSCalendarsUsageDescription</key>
-    <string>Cyclop показывает ближайшие встречи и кнопку подключения к ним.</string>
+    <string>MaadyCyclop показывает ближайшие встречи и кнопку подключения к ним.</string>
     <key>NSHumanReadableCopyright</key><string>MIT License</string>
 </dict>
 </plist>

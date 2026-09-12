@@ -27,7 +27,7 @@ jobs:
 
       - name: Проверить, что в бандле лежит то, что нужно
         run: |
-          APP=build/Cyclop.app
+          APP=build/MaadyCyclop.app
           VERSION="$(sed -n 's/^VERSION=//p' Scripts/version)"
           test -x "$APP/Contents/MacOS/Cyclop"
           test -f "$APP/Contents/Resources/libcyclopmedia.dylib"

@@ -1,7 +1,7 @@
 import Foundation
 
-/// `~/Library/Application Support/Cyclop` — where everything Cyclop keeps of
-/// its own lives.
+/// `~/Library/Application Support/MaadyCyclop` — where the app keeps its own
+/// files. The old `Cyclop` folder is renamed on first launch so nothing is lost.
 ///
 /// One place for the path, because four stores were each spelling out the same
 /// three lines: find the support directory, append the app's name, make sure it
@@ -13,8 +13,12 @@ enum Support {
     /// the folder already there.
     static let folder: URL = {
         let fm = FileManager.default
-        let url = fm.urls(for: .applicationSupportDirectory, in: .userDomainMask)[0]
-            .appendingPathComponent("Cyclop", isDirectory: true)
+        let root = fm.urls(for: .applicationSupportDirectory, in: .userDomainMask)[0]
+        let url = root.appendingPathComponent("MaadyCyclop", isDirectory: true)
+        let previous = root.appendingPathComponent("Cyclop", isDirectory: true)
+        if !fm.fileExists(atPath: url.path), fm.fileExists(atPath: previous.path) {
+            try? fm.moveItem(at: previous, to: url)
+        }
         try? fm.createDirectory(at: url, withIntermediateDirectories: true)
         return url
     }()
