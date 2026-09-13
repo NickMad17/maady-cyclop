@@ -286,6 +286,13 @@ final class NotchViewModel: ObservableObject {
             favorites.add(urls)
             return true
         }
+        // A picture dropped on the translator is a source, not a shelf card.
+        if tab == .translate,
+           let url = urls.first(where: ImageTextReader.isImageFile),
+           let image = NSImage(contentsOf: url) {
+            translator.ingest(image: image)
+            return true
+        }
         shelf.add(urls)
         if layout.isVisible(.shelf) { tab = .shelf }
         return true

@@ -33,8 +33,12 @@ final class Translator: ObservableObject {
     /// The failure is a missing language pack, which is a thing the user can
     /// go and fix — so the pane offers the button that takes them there.
     @Published private(set) var needsDownload = false
+    /// OCR is in flight. The pane stays quiet rather than flashing a status:
+    /// the recognized text lands in `input` and the usual translation follows.
+    @Published private(set) var isReadingImage = false
 
     private var attempt = 0
+    private var readTask: Task<Void, Never>?
 
     var request: Request { Request(text: input, attempt: attempt) }
     var trimmed: String { input.trimmingCharacters(in: .whitespacesAndNewlines) }
@@ -63,8 +67,60 @@ final class Translator: ObservableObject {
     }
 
     func reset() {
+        readTask?.cancel()
+        isReadingImage = false
         input = ""
         clear()
+    }
+
+    /// A screenshot or any other picture: read the words, then translate them
+    /// the same way typed text is translated. Replaces whatever was in the
+    /// field — a new picture is a new source, not an appendix.
+    func ingest(image: NSImage) {
+        readTask?.cancel()
+        input = ""
+        clear()
+        isReadingImage = true
+        readTask = Task { [weak self] in
+            let text = await ImageTextReader.read(image)
+            guard let self, !Task.isCancelled else { return }
+            isReadingImage = false
+            // Typed over the empty field while Vision was working: keep it.
+            guard input.isEmpty else { return }
+            let trimmed = text?.trimmingCharacters(in: .whitespacesAndNewlines) ?? ""
+            guard !trimmed.isEmpty else {
+                failure = localized("No text on this image.")
+                return
+            }
+            input = trimmed
+        }
+    }
+
+    /// ⌘V / the photo button: an image on the pasteboard becomes a source.
+    /// Text wins when both are present, so an ordinary copy still pastes.
+    @discardableResult
+    func ingestPasteboardImage() -> Bool {
+        let pasteboard = NSPasteboard.general
+        if let string = pasteboard.string(forType: .string),
+           !string.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
+            return false
+        }
+        guard let image = Self.image(from: pasteboard) else { return false }
+        ingest(image: image)
+        return true
+    }
+
+    static func image(from pasteboard: NSPasteboard) -> NSImage? {
+        if let data = pasteboard.data(forType: .png), let image = NSImage(data: data) {
+            return image
+        }
+        if let data = pasteboard.data(forType: .tiff), let image = NSImage(data: data) {
+            return image
+        }
+        if let urls = pasteboard.readObjects(forClasses: [NSURL.self], options: [.urlReadingFileURLsOnly: true]) as? [URL] {
+            return urls.lazy.filter(ImageTextReader.isImageFile).compactMap { NSImage(contentsOf: $0) }.first
+        }
+        return pasteboard.readObjects(forClasses: [NSImage.self], options: nil)?.first as? NSImage
     }
 
     func run(_ session: TranslationSession) async {

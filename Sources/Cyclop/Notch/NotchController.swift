@@ -11,6 +11,10 @@ final class NotchController {
     private var vm: NotchViewModel?
     private var panels: [CGDirectDisplayID: NotchScreenPanel] = [:]
     private var cancellables = Set<AnyCancellable>()
+    /// Global left-click: sees every press that is *not* delivered to our
+    /// own windows, which is exactly "outside the panel". Installed only
+    /// while a panel is open and Settings asked for a click to close.
+    private var clickAwayMonitor: Any?
 
     func install() {
         let vm = NotchViewModel()
@@ -39,6 +43,13 @@ final class NotchController {
 
         vm.timer.onStarted = { [weak self] in self?.foldActive() }
         vm.picker.onPickStarted = { [weak self] in self?.foldActive() }
+
+        vm.behavior.$close
+            .removeDuplicates()
+            .sink { [weak self] _ in
+                MainActor.assumeIsolated { self?.refreshClickAway() }
+            }
+            .store(in: &cancellables)
     }
 
     /// Sleeping, waking and changing desktop are facts about the session, not
@@ -50,6 +61,7 @@ final class NotchController {
     }
 
     func teardown() {
+        stopClickAway()
         vm?.stop()
         panels.values.forEach { $0.teardown() }
     }
@@ -140,6 +152,7 @@ final class NotchController {
         guard let vm else { return }
         let active = panels.values.contains { $0.state.isActive }
         vm.isTyping = panels.values.contains { $0.state.wantsKeyboard }
+        refreshClickAway()
         guard active != vm.isPanelActive else { return }
         vm.isPanelActive = active
         // Polling follows the last panel to close, not the first: a track that
@@ -169,5 +182,41 @@ final class NotchController {
             return !panel.geometry.matches(geometry)
         }
         if stale { rebuild() }
+    }
+
+    // MARK: - Click away
+
+    /// A global monitor never sees clicks on this app's windows, and a local
+    /// one never fires while the app is inactive — which it always is. That
+    /// split is what we want: a press inside the panel is ours, a press
+    /// anywhere else folds it.
+    private func refreshClickAway() {
+        let needed = vm?.behavior.closesOnClick == true
+            && panels.values.contains { $0.state.isOpen }
+        if needed {
+            startClickAway()
+        } else {
+            stopClickAway()
+        }
+    }
+
+    private func startClickAway() {
+        guard clickAwayMonitor == nil else { return }
+        clickAwayMonitor = NSEvent.addGlobalMonitorForEvents(matching: .leftMouseDown) { [weak self] _ in
+            DispatchQueue.main.async { self?.closeOpenPanelsFromOutside() }
+        }
+    }
+
+    private func stopClickAway() {
+        guard let clickAwayMonitor else { return }
+        NSEvent.removeMonitor(clickAwayMonitor)
+        self.clickAwayMonitor = nil
+    }
+
+    private func closeOpenPanelsFromOutside() {
+        guard vm?.behavior.closesOnClick == true else { return }
+        for panel in panels.values where panel.state.isOpen {
+            panel.closeFromOutside()
+        }
     }
 }

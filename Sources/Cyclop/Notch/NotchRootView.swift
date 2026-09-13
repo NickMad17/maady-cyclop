@@ -17,12 +17,20 @@ final class NotchRootView: NSView {
     var onDragEntered: (() -> Void)?
     var onDragExited: (() -> Void)?
     var onDrop: (([URL]) -> Bool)?
+    /// Pictures without a file URL — a screenshot dragged out of Preview, or
+    /// one still sitting on the pasteboard. Tried before `onDrop`.
+    var onDropImages: (([NSImage]) -> Bool)?
 
     private(set) var isReceivingDrag = false
 
     override init(frame frameRect: NSRect) {
         super.init(frame: frameRect)
-        registerForDraggedTypes([.fileURL])
+        registerForDraggedTypes([
+            .fileURL,
+            .png,
+            .tiff,
+            NSPasteboard.PasteboardType("public.image"),
+        ])
     }
 
     @available(*, unavailable)
@@ -91,14 +99,14 @@ final class NotchRootView: NSView {
     // MARK: - Drag destination
 
     override func draggingEntered(_ sender: NSDraggingInfo) -> NSDragOperation {
-        guard !urls(from: sender).isEmpty else { return [] }
+        guard canAccept(sender) else { return [] }
         isReceivingDrag = true
         onDragEntered?()
         return .copy
     }
 
     override func draggingUpdated(_ sender: NSDraggingInfo) -> NSDragOperation {
-        urls(from: sender).isEmpty ? [] : .copy
+        canAccept(sender) ? .copy : []
     }
 
     override func draggingExited(_ sender: NSDraggingInfo?) {
@@ -111,18 +119,36 @@ final class NotchRootView: NSView {
     }
 
     override func prepareForDragOperation(_ sender: NSDraggingInfo) -> Bool {
-        !urls(from: sender).isEmpty
+        canAccept(sender)
     }
 
     override func performDragOperation(_ sender: NSDraggingInfo) -> Bool {
         isReceivingDrag = false
+        let pictures = images(from: sender)
+        if !pictures.isEmpty, onDropImages?(pictures) == true { return true }
         let files = urls(from: sender)
         guard !files.isEmpty else { return false }
         return onDrop?(files) ?? false
     }
 
+    private func canAccept(_ sender: NSDraggingInfo) -> Bool {
+        !urls(from: sender).isEmpty || !images(from: sender).isEmpty
+    }
+
     private func urls(from sender: NSDraggingInfo) -> [URL] {
         let options: [NSPasteboard.ReadingOptionKey: Any] = [.urlReadingFileURLsOnly: true]
         return sender.draggingPasteboard.readObjects(forClasses: [NSURL.self], options: options) as? [URL] ?? []
+    }
+
+    private func images(from sender: NSDraggingInfo) -> [NSImage] {
+        let pasteboard = sender.draggingPasteboard
+        if let pictures = pasteboard.readObjects(forClasses: [NSImage.self], options: nil) as? [NSImage],
+           !pictures.isEmpty {
+            return pictures
+        }
+        return urls(from: sender).compactMap { url in
+            guard ImageTextReader.isImageFile(url) else { return nil }
+            return NSImage(contentsOf: url)
+        }
     }
 }

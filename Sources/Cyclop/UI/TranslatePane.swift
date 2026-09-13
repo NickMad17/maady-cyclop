@@ -11,6 +11,9 @@ struct TranslatePane: View {
     /// clicks into another app, and the field follows it — the caret has to
     /// stop blinking here when it has genuinely gone elsewhere.
     @Binding var wantsKeyboard: Bool
+    /// A picture is being dragged onto the pane. The left column is the
+    /// drop target; the rest of the panel stays as it was.
+    var isTargeted = false
 
     @FocusState private var focused: Bool
     @State private var configuration: TranslationSession.Configuration?
@@ -55,6 +58,14 @@ struct TranslatePane: View {
 
     private func source(_ font: CGFloat) -> some View {
         column(Translator.name(translator.route.source)) {
+            Button { translator.ingestPasteboardImage() } label: {
+                Image(systemName: "photo")
+                    .font(.system(size: 10, weight: .semibold))
+                    .foregroundStyle(Theme.secondary)
+            }
+            .buttonStyle(.plain)
+            .pointerStyle(.default)
+            .help(localized("Paste screenshot"))
             if !translator.input.isEmpty {
                 Button { translator.reset() } label: {
                     Image(systemName: "xmark")
@@ -71,32 +82,52 @@ struct TranslatePane: View {
             // which is precisely when the hitch showed. An editor takes the
             // rectangle it is given and re-wraps inside it, so a new line
             // costs nothing outside its own bounds.
-            TextEditor(text: $translator.input)
-                .textEditorStyle(.plain)
-                .scrollContentBackground(.hidden)
-                .scrollIndicators(.hidden)
-                .font(.system(size: font))
-                .foregroundStyle(.white)
-                // Grey rather than the system accent: the caret has to say
-                // where typing lands without being the brightest thing in a
-                // panel that is mostly dark and mostly still.
-                .tint(Theme.secondary)
-                .focused($focused)
-                // The editor insets its text by a few points of its own; pull
-                // that back so the first character lines up with the title.
-                .padding(.leading, -5)
-                .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
-                .contentShape(Rectangle())
-                .onKeyPress(.escape) {
-                    translator.reset()
-                    return .handled
+            ZStack(alignment: .topLeading) {
+                TextEditor(text: $translator.input)
+                    .textEditorStyle(.plain)
+                    .scrollContentBackground(.hidden)
+                    .scrollIndicators(.hidden)
+                    .font(.system(size: font))
+                    .foregroundStyle(.white)
+                    // Grey rather than the system accent: the caret has to say
+                    // where typing lands without being the brightest thing in a
+                    // panel that is mostly dark and mostly still.
+                    .tint(Theme.secondary)
+                    .focused($focused)
+                    // The editor insets its text by a few points of its own; pull
+                    // that back so the first character lines up with the title.
+                    .padding(.leading, -5)
+                    .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
+                    .contentShape(Rectangle())
+                    .onKeyPress(.escape) {
+                        translator.reset()
+                        return .handled
+                    }
+                    .onKeyPress { press in
+                        guard press.modifiers.contains(.command),
+                              press.key == KeyEquivalent("v") else { return .ignored }
+                        return translator.ingestPasteboardImage() ? .handled : .ignored
+                    }
+                if translator.trimmed.isEmpty, !translator.isReadingImage {
+                    Text("Type or drop a screenshot")
+                        .font(.system(size: font))
+                        .foregroundStyle(Theme.tertiary)
+                        .padding(.leading, -5)
+                        .allowsHitTesting(false)
                 }
+            }
         }
         .padding(10)
         .background(
             RoundedRectangle(cornerRadius: 10, style: .continuous)
                 .fill(Theme.surface)
         )
+        .overlay {
+            if isTargeted {
+                RoundedRectangle(cornerRadius: 10, style: .continuous)
+                    .strokeBorder(Color.white.opacity(0.28), lineWidth: 1)
+            }
+        }
     }
 
     // MARK: - Right
@@ -212,7 +243,7 @@ struct TranslatePane: View {
         let text = translator.trimmed
         guard !text.isEmpty else {
             configuration = nil
-            translator.clear()
+            if !translator.isReadingImage { translator.clear() }
             return
         }
         // Wait out the typing: a word is a handful of keystrokes, and a session

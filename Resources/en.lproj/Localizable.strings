@@ -30,6 +30,7 @@
 "On hover" = "On hover";
 "On click" = "On click";
 "On leave" = "On leave";
+"Click outside" = "Click outside";
 "Displays" = "Displays";
 "Show on All Displays" = "Show on All Displays";
 
@@ -72,6 +73,9 @@
 "Retry" = "Retry";
 "The %@ → %@ language pack is not installed." = "The %@ → %@ language pack is not installed.";
 "macOS does not translate this pair of languages." = "macOS does not translate this pair of languages.";
+"Type or drop a screenshot" = "Type or drop a screenshot";
+"Paste screenshot" = "Paste screenshot";
+"No text on this image." = "No text on this image.";
 
 /* Calendar */
 "Join" = "Join";

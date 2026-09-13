@@ -60,19 +60,32 @@ final class NotchScreenPanel {
         pointer.setInside(state.isOpen)
     }
 
-    /// Header of the notch, folded or open. Opens only when Settings asked
-    /// for a click to open; folds only when it asked for a click to close.
-    /// The other side of each pair still belongs to the pointer.
+    /// Header of the folded notch. Opens only when Settings asked for a
+    /// click to open. A click to close is a click outside the panel, not here:
+    /// folding from the header would leave the pointer on the notch, and
+    /// open-on-hover would unfold it again on the next sample.
     private func notchClicked() {
+        guard !state.isOpen, vm.behavior.opensOnClick else { return }
         suppressOpen = false
-        if state.isOpen {
-            guard vm.behavior.closesOnClick, !holdsOpen else { return }
+        setOpen(true)
+        pointer.setInside(true)
+    }
+
+    /// Click landed in another app (or on the desktop). That is the close
+    /// gesture when Settings asked for one: the header itself stays deaf so
+    /// a hover-to-open cannot fight it. If the pointer is still over the
+    /// notch — a click-through that landed behind it — hover stays deaf
+    /// until it actually leaves, same as the timer and the picker.
+    func closeFromOutside() {
+        guard state.isOpen else { return }
+        let point = NSEvent.mouseLocation
+        let stillOver = geometry.hoverRect.contains(point)
+            || geometry.hoverRect(for: state.openBodySize).contains(point)
+        if stillOver {
+            foldUntilPointerLeaves()
+        } else {
             setOpen(false)
             pointer.setInside(false)
-        } else {
-            guard vm.behavior.opensOnClick else { return }
-            setOpen(true)
-            pointer.setInside(true)
         }
     }
 
@@ -132,11 +145,11 @@ final class NotchScreenPanel {
 
         root.onDragEntered = { [weak self] in
             guard let self else { return }
-            // Dropping onto the favorites tab is how folders arrive from the
-            // Desktop. Switching to the shelf would steal that gesture and
-            // land the folders in a holding area instead of the list that
-            // was open and waiting for them.
-            if vm.tab != .favorites, vm.layout.isVisible(.shelf) {
+            // Favorites keep a folder drop. Translate keeps a picture: that
+            // is a source for OCR, and switching to the shelf would steal it.
+            // Everything else still opens the shelf — dragging toward the
+            // notch is how files arrive there.
+            if vm.tab != .favorites, vm.tab != .translate, vm.layout.isVisible(.shelf) {
                 state.select(.shelf)
             }
             state.isDropTargeted = true
@@ -156,6 +169,15 @@ final class NotchScreenPanel {
             setOpen(true)
             scheduleCollapseIfPointerAway()
             return accepted
+        }
+        root.onDropImages = { [weak self] images in
+            guard let self, vm.tab == .translate, let image = images.first else { return false }
+            state.isDropTargeted = false
+            vm.translator.ingest(image: image)
+            pointer.setInside(true)
+            setOpen(true)
+            scheduleCollapseIfPointerAway()
+            return true
         }
 
         // Clicking away drops the keyboard but leaves the tab where it was, so
@@ -257,11 +279,12 @@ final class NotchScreenPanel {
             }
             .store(in: &cancellables)
 
-        // Clicking into another app drops the keyboard: there is no
-        // click-outside to catch, but losing key status says the same. The tab
-        // stays as it was — only the claim on the keyboard is dropped. This is
-        // also what hands the keyboard between screens: the panel that takes it
-        // makes itself key, and the one that had it hears about it here.
+        // Clicking into another app drops the keyboard: losing key status
+        // says so even when the click-away monitor is not installed (close
+        // on leave). The tab stays as it was — only the claim on the
+        // keyboard is dropped. This is also what hands the keyboard between
+        // screens: the panel that takes it makes itself key, and the one
+        // that had it hears about it here.
         NotificationCenter.default.publisher(for: NSWindow.didResignKeyNotification, object: panel)
             .sink { [weak self] _ in
                 MainActor.assumeIsolated { self?.state.wantsKeyboard = false }

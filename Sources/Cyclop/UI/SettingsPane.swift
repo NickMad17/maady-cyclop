@@ -39,7 +39,7 @@ struct SettingsPane: View {
                         symbol: "arrow.uturn.left",
                         title: localized("Close"),
                         left: localized("On leave"),
-                        right: localized("On click"),
+                        right: localized("Click outside"),
                         isLeft: behavior.closesOnLeave,
                         pickLeft: { behavior.setClose(.leave) },
                         pickRight: { behavior.setClose(.click) }

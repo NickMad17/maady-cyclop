@@ -29,6 +29,7 @@
 "On hover" = "Наведением";
 "On click" = "Кликом";
 "On leave" = "Отведением";
+"Click outside" = "Кликом снаружи";
 "Displays" = "Дисплеи";
 "Show on All Displays" = "Показывать на всех дисплеях";
 
@@ -71,6 +72,9 @@
 "Retry" = "Повторить";
 "The %@ → %@ language pack is not installed." = "Не скачан языковой пакет %@ → %@.";
 "macOS does not translate this pair of languages." = "macOS не переводит эту пару языков.";
+"Type or drop a screenshot" = "Напиши или брось скриншот";
+"Paste screenshot" = "Вставить скриншот";
+"No text on this image." = "На картинке нет текста.";
 
 /* Календарь */
 "Join" = "Подключиться";

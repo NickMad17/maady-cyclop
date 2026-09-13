@@ -80,7 +80,8 @@ struct NotchContentView: View {
     // observer that sees the click no matter which window consumes it — so
     // clicking here toggles them as a side effect. The tab switcher stays in
     // the rail below. A tap is wired only when Settings asked for a click
-    // to open or close: hover-only keeps this row deaf.
+    // to open: hover-only keeps this row deaf, and a click to close is a
+    // click outside the panel, not on this strip.
 
     private var header: some View {
         HStack(spacing: 0) {
@@ -105,9 +106,7 @@ struct NotchContentView: View {
         .frame(height: panel.geometry.notchSize.height)
         .contentShape(Rectangle())
         .onTapGesture {
-            let clickOpens = !isOpen && vm.behavior.opensOnClick
-            let clickCloses = isOpen && vm.behavior.closesOnClick
-            guard clickOpens || clickCloses else { return }
+            guard !isOpen, vm.behavior.opensOnClick else { return }
             panel.notchClicked()
         }
     }
@@ -217,7 +216,11 @@ struct NotchContentView: View {
         case .snippets:
             SnippetsPane(snippets: vm.snippets, privacy: vm.privacy, wantsKeyboard: $panel.wantsKeyboard)
         case .translate:
-            TranslatePane(translator: vm.translator, wantsKeyboard: $panel.wantsKeyboard)
+            TranslatePane(
+                translator: vm.translator,
+                wantsKeyboard: $panel.wantsKeyboard,
+                isTargeted: panel.isDropTargeted && vm.tab == .translate
+            )
         case .notes:
             NotesPane(notes: vm.notes, privacy: vm.privacy, wantsKeyboard: $panel.wantsKeyboard)
         case .favorites:

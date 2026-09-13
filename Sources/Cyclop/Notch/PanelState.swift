@@ -21,7 +21,7 @@ final class PanelState: ObservableObject {
     /// Raised when any of the three above moves, so whoever owns every screen
     /// can recompute what the shared model needs to know about the panels.
     var onChange: (() -> Void)?
-    /// Header click: open or fold, depending on what Settings asked for.
+    /// Header click: open, when Settings asked for a click to open.
     var onNotchClick: (() -> Void)?
 
     init(geometry: NotchGeometry, vm: NotchViewModel) {
@@ -52,10 +52,11 @@ final class PanelState: ObservableObject {
     /// Size of the visible body for the current state.
     var bodySize: CGSize { isActive ? openBodySize : geometry.notchSize }
 
-    /// Hover and click both land here. A tab that types takes the keyboard
-    /// either way: showing a field one cannot type into is worse than briefly
-    /// dimming the caret of the window underneath, and the dwell threshold on
-    /// the rail already keeps a passing pointer from arriving here at all.
+    /// Hover and a click to open both land here. A tab that types takes the
+    /// keyboard either way: showing a field one cannot type into is worse than
+    /// briefly dimming the caret of the window underneath, and the dwell
+    /// threshold on the rail already keeps a passing pointer from arriving here
+    /// at all.
     ///
     /// The tab is shared and the keyboard is not: choosing on one screen
     /// changes what every screen shows, but only this one starts listening.

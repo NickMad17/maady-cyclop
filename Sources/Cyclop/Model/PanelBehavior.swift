@@ -4,8 +4,11 @@ import Foundation
 ///
 /// The two sides are independent: open on a click and close when the pointer
 /// leaves is a real combination, and the old "hover does both" is just the
-/// default pair. Hidden behind Settings so a passing pointer can stop being
-/// a decision without teaching a second gesture to everyone else.
+/// default pair. A click to close is a click *outside* the panel — not on the
+/// notch itself — so it cannot fight an open-on-hover that would unfold again
+/// the moment the pointer is still sitting on the header. Hidden behind
+/// Settings so a passing pointer can stop being a decision without teaching a
+/// second gesture to everyone else.
 @MainActor
 final class PanelBehavior: ObservableObject {
     enum Open: String {
